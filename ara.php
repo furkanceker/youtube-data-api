@@ -7,22 +7,28 @@
     <?php
         $s = @intval(get('s'));
         if(!$s){$s=1;}
-        $videolar = $db->prepare("SELECT * FROM videolar WHERE durum=:durum");
-        $videolar->execute(array(":durum"=>1));
+        $q = @get('q');
+
+        if(!$q){
+            header('Location:'.$site.'');
+        }
+        $videolar = $db->prepare("SELECT * FROM videolar WHERE durum=:durum AND baslik LIKE :par");
+        $videolar->execute(array(":durum"=>1,':par'=>'%'.$q.'%'));
 
         $toplam = $videolar->rowCount();
         $lim = 9;
         $goster = $s * $lim - $lim;
     ?>
-    <h1 class="my-4"><small>Son Eklenen Videolar(<?= $videolar->rowCount(); ?> Toplam Video)</small></h1>
+    <h1 class="my-4"><small>Arama Sonuçları(<?= $videolar->rowCount(); ?> Adet Sonuç)</small></h1>
     <div class="row">
 <?php 
 
 
-$videolar = $db->prepare("SELECT * FROM videolar WHERE durum=:durum ORDER BY id DESC LIMIT :goster,:lim");
+$videolar = $db->prepare("SELECT * FROM videolar WHERE durum=:durum AND baslik LIKE :par ORDER BY id DESC LIMIT :goster,:lim");
 $videolar->bindValue(":durum",(int) 1,PDO::PARAM_INT);
 $videolar->bindValue(":goster",(int) $goster,PDO::PARAM_INT);
 $videolar->bindValue(":lim",(int) $lim,PDO::PARAM_INT);
+$videolar->bindValue(":par",'%'.$q.'%',PDO::PARAM_STR);
 $videolar->execute();
 
 if($videolar->rowCount()){
@@ -50,28 +56,28 @@ if($videolar->rowCount()){
         }else{
             if($s > 4){
                 $onceki = $s - 1;
-                echo '<li class="page-item"<a class="page-link" href='.$site.'/index.php?s=1"><<</a></li>';
-                echo '<li class="page-item"<a class="page-link" href='.$site.'/index.php?s="'.$onceki.'">></a></li>';
+                echo '<li class="page-item"<a class="page-link" href='.$site.'/ara.php?q='.$q.'&s=1"><<</a></li>';
+                echo '<li class="page-item"<a class="page-link" href='.$site.'/ara.php?q='.$q.'&s="'.$onceki.'">></a></li>';
             }
             for($i = $s - $flim;$i < $s + $flim + 1; $i++){
                 if($i>0 && $i <= $ssayi){
                     if($i == $s){
                         echo '<li class="page-item"><a class="page-link" style="background:#337ab7;color:#fff" href="#">'.$i.'</a></li>';
                     }else{
-                        echo '<li class="page-item"><a class="page-link" href="'.$site.'/index.php?s='.$i.'">'.$i.'</a></li>';
+                        echo '<li class="page-item"><a class="page-link" href="'.$site.'/ara.php?q='.$q.'&s='.$i.'">'.$i.'</a></li>';
                     }
                 }
             }
 
             if($s <= $ssayi - 4){
                 $sonraki = $s +1;
-                echo '<li class="page-item"<a class="page-link" href='.$site.'/index.php?s='.$sonraki.'">></a></li>';
-                echo '<li class="page-item"<a class="page-link" href='.$site.'/index.php?s="'.$sayi.'">>></a></li>';
+                echo '<li class="page-item"<a class="page-link" href='.$site.'/ara.php?q='.$q.'&s='.$sonraki.'">></a></li>';
+                echo '<li class="page-item"<a class="page-link" href='.$site.'/ara.php?q='.$q.'&s="'.$sayi.'">>></a></li>';
             }
         }
         echo "</ul>";
 }else{
-    echo "<div class='container'><div class='alert alert-danger'>Henüz Video Yok</div></div>";
+    echo "<div class='container'><div class='alert alert-danger'>Aramanızla Eşleşen Video Bulunamadı</div></div>";
 }
 ?>
 </div>

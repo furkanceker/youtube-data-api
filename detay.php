@@ -46,13 +46,55 @@ require_once 'ust.php'; ?>
                     header('Location:'.$site.'');
                 }
             }
-
+            $yorumlar = $db->prepare("SELECT * FROM yorumlar WHERE video_id=:id AND durum=:durum");
+            $yorumlar->execute(array(':id'=>$row->id,':durum'=>1));
             ?>
             
             <hr>
             <div class="card my-4">
-                <h5 class="card-header">Yorum Yap (0 Adet Yorum)</h5>
+                <h5 class="card-header">Yorum Yap (<?= $yorumlar->rowCount(); ?> Adet Yorum)</h5>
                 <div class="card-body">
+
+                <?php
+                    if(isset($_POST['gonder'])){
+                        $isim = post('isim');
+                        $eposta = post('mail');
+                        $website = post('website');
+                        $yorum = post('yorum');
+
+                        if(!$isim || !$eposta || !$yorum){
+                            echo "<div class='alert alert-danger'>Lütfen Boş Alanları Doldurun</div>";
+                        }else{
+                            if(!filter_var($eposta,FILTER_VALIDATE_EMAIL)){
+                                echo "<div class='alert alert-danger'>Hatalı E-Posta Adresi</div>";
+                            }else{
+                                $yorumekle = $db->prepare("INSERT INTO yorumlar SET 
+                                    video_id=:video,
+                                    isim=:isim,
+                                    posta=:posta,
+                                    website=:website,
+                                    icerik=:icerik,
+                                    durum=:durum
+                                ");
+                                $yorumekle->execute(array(
+                                    ':video'=>$row->id,
+                                    ':isim'=>$isim,
+                                    ':posta'=>$eposta,
+                                    ':website'=>$website,
+                                    ':icerik'=>$yorum,
+                                    ':durum'=>2
+                                ));
+                                if($yorumekle){
+                                    echo "<div class='alert alert-success'>Yorumunuz Onaylanmak Üzere Gönderildi</div>";
+                                    header("refresh:3;url=".@$_SERVER['HTTP_REFERER']);
+                                }else{
+                                    echo "<div class='alert alert-danger'>Hata Oluştu</div>";
+                                }
+                            }
+                        }
+                    }
+
+                ?>
                     <form action="" method="post">
                         <div class="form-group">
                             <input type="text" class="form-control" name="isim" placeholder="Ad Soyad">
@@ -60,18 +102,41 @@ require_once 'ust.php'; ?>
                         <div class="form-group">
                             <input type="mail" class="form-control" name="mail" placeholder="E-Posta">
                         </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" name="website" placeholder="Web Site Adresi">
+                        </div>
+                        <div class="form-group">
+                            <textarea name="yorum" class="form-control"  cols="30" rows="3" placeholder="Yorum Yazın"></textarea>
+                        </div>
+                        <button type="submit" name="gonder" class="btn btn-success">Gönder</button>
                     </form>
                 </div>
             </div>
+            <?php 
+                if($yorumlar->rowCount()){
+                    foreach($yorumlar as $yorum){
+                        ?>
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <h5 class="mt-0"><a href="<?= $yorum['website']; ?>" target="_blank"><?= $yorum['isim']; ?></a></h5>
+                                <?= $yorum['icerik']; ?>
+                            </div>
+                        </div>
+                        <?php
+                    }
+                }else{
+                    echo "<div class='alert alert-danger'>Henüz Yorum Yok</div>";
+                }
+            ?>
         </div>
         <div class="col-lg-4">
             <div class="card my-4">
                 <h5 class="card-header">Arama Yap</h5>
                 <div class="card-body">
                     <div class="input-group">
-                        <form action="" method="get">
+                        <form action="ara.php" method="get">
                             <input type="text" class="form-control" style="width:100%" name="q" placeholder="Video Ara">
-                            <span class="input-group-btn"><button class="btn btn-success" type="button">Ara</button></span>
+                            <span class="input-group-btn"><button class="btn btn-success" type="submit">Ara</button></span>
                         </form>
                     </div>
                 </div>
