@@ -16,4 +16,14 @@ $ayarlar->execute();
 $arow = $ayarlar->fetch(PDO::FETCH_OBJ);
 
 $site = $arow->url;
+
+if(isset($_SESSION['oturum'])){
+    $oturum = $db->prepare("SELECT * FROM admin where id=:id");
+    $oturum->execute(array(':id'=>@$_SESSION['id']));
+    if($oturum->rowCount()){
+        $row = $oturum->fetch(PDO::FETCH_OBJ);
+        $uid = $row->id;
+        $uisim = $row->isim;
+    }
+}
 ?>
