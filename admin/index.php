@@ -6,11 +6,11 @@ $videolar = $db->prepare("SELECT * FROM videolar");
 $videolar->execute();
             
 $toplam = $videolar->rowCount();
-$lim = 5;
+$lim = 1;
 $goster = $s * $lim - $lim;
 ?>
 <div class="content-wrapper">
-    <div class="container-fluid">
+    <div class="container-fluid mt-3">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="index.php">Panel</a></li>
@@ -20,7 +20,7 @@ $goster = $s * $lim - $lim;
         <div class="row">
 
         </div>
-        <div class="card mb-3">
+        <div class="card">
             <div class="table-responsive">
                 <table class="table table-hover">
                     <?php
@@ -51,12 +51,13 @@ $goster = $s * $lim - $lim;
                                 <th scope="col">İşlemler</th>
                             </tr>
                         </thead>
+                        <tbody>
                         <?php
+                        $say = 1;
                         foreach($videolar as $row){
                             ?>
-                            <tbody>
                                 <tr>
-                                    <td>1</td>
+                                    <td><?= $say; ?></td>
                                     <td><img src="<?= $row['resim']; ?>" width="100" height="70"></td>
                                     <td><a href="<?= $site.'/detay.php?info='.$row['url']; ?>" target="_blank" data-toggle="tooltip" data-placement="top" title="Sitede İzle"><?= $row['baslik']; ?></a></td>
                                     <td><a href="https://www.youtube.com/watch?v=<?= $row['url']; ?>" target="_blank" data-toggle="tooltip" data-placement="top" title="Youtube'da İzle"><?= $row['url']; ?></a></td>
@@ -72,10 +73,14 @@ $goster = $s * $lim - $lim;
                                     </td>
                                     <td><a href="islemler.php?islem=videoduzenle&id=<?= $row['id'];?>"><i class="fa fa-edit"></i></a> | <a href="islemler.php?islem=videosil&id=<?= $row['id']; ?>" onclick="return confirm('Silmek İstiyor Musunuz?');"><i class="fa fa-trash text-danger"></i></a></td>
                                 </tr>
-                            </tbody>
+                            
                             <?php
+                            $say++;
                         }
-                        echo '<ul">';
+                        echo '</tbody></table>
+                        </div>
+                    </div>';
+                        echo '<ul class="pagination">';
                         $ssayi = ceil($toplam/$lim);
                         $flim = 3;
                         if($ssayi < 2){
@@ -104,13 +109,10 @@ $goster = $s * $lim - $lim;
                         }
                         echo "</ul>";
                     }else{
-                        echo '<div class="alert alert-danger>Henüz Video Yok</div>"';
+                        echo '<div class="alert alert-danger>Henüz Video Yok</div>';
                     }
 
                     ?>
-                </table>
-            </div>
-        </div>
     </div>
 </div>
                 
