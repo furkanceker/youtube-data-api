@@ -16,7 +16,7 @@
             <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                 <li>
-                    <a class="dropdown-item" href="islemler.php?islem=adminduzenle&id=<?= $uid; ?>">
+                    <a class="dropdown-item" href="islemler.php?islem=yoneticiduzenle&id=<?= $uid; ?>">
                         <?= $uisim; ?>
                     </a>
                 </li>

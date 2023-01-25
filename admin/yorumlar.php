@@ -55,7 +55,7 @@
                             ?> 
                                 <tr>
                                     <td><?= $say; ?></td>
-                                    <td><?= $row['baslik']; ?></td>
+                                    <td><a target="_blank" href="<?= $site.'/detay.php?info='.$row['url']?>"><?= $row['baslik']; ?></a></td>
                                     <td><?= $row['yorum_isim']; ?></td>
                                     <td><?= $row['yorum_website']; ?></td>
                                     <td><?= $row['yorum_posta']; ?></td>

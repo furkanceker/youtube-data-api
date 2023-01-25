@@ -46,7 +46,7 @@ require_once 'ust.php'; ?>
                     header('Location:'.$site.'');
                 }
             }
-            $yorumlar = $db->prepare("SELECT * FROM yorumlar WHERE video_id=:id AND durum=:durum");
+            $yorumlar = $db->prepare("SELECT * FROM yorumlar WHERE yorum_video_id=:id AND yorum_durum=:durum");
             $yorumlar->execute(array(':id'=>$row->id,':durum'=>1));
             ?>
             
@@ -69,12 +69,12 @@ require_once 'ust.php'; ?>
                                 echo "<div class='alert alert-danger'>Hatalı E-Posta Adresi</div>";
                             }else{
                                 $yorumekle = $db->prepare("INSERT INTO yorumlar SET 
-                                    video_id=:video,
-                                    isim=:isim,
-                                    posta=:posta,
-                                    website=:website,
-                                    icerik=:icerik,
-                                    durum=:durum
+                                    yorum_video_id=:video,
+                                    yorum_isim=:isim,
+                                    yorum_posta=:posta,
+                                    yorum_website=:website,
+                                    yorum_icerik=:icerik,
+                                    yorum_durum=:durum
                                 ");
                                 $yorumekle->execute(array(
                                     ':video'=>$row->id,
@@ -118,8 +118,8 @@ require_once 'ust.php'; ?>
                         ?>
                         <div class="card mb-4">
                             <div class="card-body">
-                                <h5 class="mt-0"><a href="<?= $yorum['website']; ?>" target="_blank"><?= $yorum['isim']; ?></a></h5>
-                                <?= $yorum['icerik']; ?>
+                                <h5 class="mt-0"><a href="<?= $yorum['yorum_website']; ?>" target="_blank"><?= $yorum['yorum_isim']; ?></a></h5>
+                                <?= $yorum['yorum_icerik']; ?>
                             </div>
                         </div>
                         <?php
