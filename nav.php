@@ -11,10 +11,7 @@
         <a class="nav-link" href="<?= $site ?>">Ana Sayfa <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#"><i class="fa fa-bars"></i> Hakkımızda</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#"><i class="fa fa-envelope-open"></i> İletişim</a>
+        <a class="nav-link" href="videooner.php"><i class="fa fa-video"></i> Video Öner</a>
       </li>
     </ul>
   </div>

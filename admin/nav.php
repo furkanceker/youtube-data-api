@@ -24,7 +24,7 @@
                 <li>
                     <hr class="dropdown-divider" />
                 </li>
-                <li><a class="dropdown-item" href="cikis.php" onclick="return confirm('Çıkış Yapmak İstiyor Musunuz?');">Çıkış Yap</a></li>
+                <li><a class="dropdown-item" href="islemler.php?islem=cikis" onclick="return confirm('Çıkış Yapmak İstiyor Musunuz?');">Çıkış Yap</a></li>
             </ul>
         </li>
     </ul>
@@ -37,6 +37,10 @@
                     <a class="nav-link" href="index.php">
                         <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                         Yönetim Paneli
+                    </a>
+                    <a class="nav-link" href="islemler.php?islem=genel">
+                        <div class="sb-nav-link-icon"><i class="fas fa-cog"></i></div>
+                        Genel Ayarlar
                     </a>
                     <a class="nav-link" href="oneriler.php">
                         <div class="sb-nav-link-icon"><i class="fas fa-video"></i></div>

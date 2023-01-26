@@ -21,6 +21,105 @@ require_once 'nav.php';
             <?php
                 $islem = @get('islem');
                 switch($islem){
+                    case 'cikis':
+                        if(isset($_SESSION['oturum'])){
+                            unset($_SESSION['oturum']);
+                            header('Location:giris.php');
+                        }
+                    break;
+                    case 'genel':
+                        if(isset($_SESSION['oturum'])){
+                            if(isset($_POST['ayarguncel'])){
+                                $url = post('siteurl');
+                                $baslik = post('baslik');
+                                $keywords = post('keywords');
+                                $aciklama = post('aciklama');
+                                $duyuru = post('duyuru');
+                                $footer = post('footer');
+                                $apikey = post('apikey');
+                                if(!$url || !$baslik || !$keywords || !$aciklama || !$duyuru || !$footer || !$apikey){
+                                    echo "<div class='alert alert-danger'>Boş Alanları Doldurun</div>";
+                                }else{
+                                    $guncelle = $db->prepare("UPDATE ayarlar SET
+                                        url=:url,
+                                        baslik=:baslik,
+                                        keywords=:keywords,
+                                        description=:description,
+                                        duyuru=:duyuru,
+                                        footer=:footer,
+                                        apikey=:api
+                                    ");
+                                    $guncelle->execute(array(
+                                        ":url"=>$url,
+                                        ":baslik"=>$baslik,
+                                        ":keywords"=>$keywords,
+                                        ":description"=>$aciklama,
+                                        ":duyuru"=>$duyuru,
+                                        ":footer"=>$footer,
+                                        ":api"=>$apikey
+                                    ));
+                                    if($guncelle){
+                                        echo "<div class='alert alert-success'>Ayarlar Güncellendi</div>";
+                                        header("refresh:2;url=index.php");
+                                    }else{
+                                        echo "<div class='alert alert-danger'>Hata Oluştu</div>";
+                                    }
+                                }
+                            }
+                        }
+                        ?>
+                        <form action="" method="post" class="form-horizontal">
+                            <div class="form-group mb-3">
+                                <label for="inputEmail" class="col-lg-2 control-label">Site URL</label>
+                                <div class="col-lg-4">
+                                    <input type="text"  name="siteurl" value="<?= $site; ?>" id="inputEmail" class="form-control" placeholder="Site URL">
+                                </div>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="inputEmail" class="col-lg-2 control-label">Site Başlık</label>
+                                <div class="col-lg-4">
+                                    <input type="text"  name="baslik" value="<?= $arow->baslik; ?>" id="inputEmail" class="form-control" placeholder="Site Başlık">
+                                </div>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="inputEmail" class="col-lg-2 control-label">Site Anahtar Kelimeler</label>
+                                <div class="col-lg-4">
+                                    <input type="text"  name="keywords" value="<?= $arow->keywords; ?>" id="inputEmail" class="form-control" placeholder="Site Anahtar Kelimeler">
+                                </div>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="inputEmail" class="col-lg-2 control-label">Site Açıklaması</label>
+                                <div class="col-lg-4">
+                                    <input type="text"  name="aciklama" value="<?= $arow->description; ?>" id="inputEmail" class="form-control" placeholder="Site Açılama">
+                                </div>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="inputEmail" class="col-lg-2 control-label">Site Duyuru</label>
+                                <div class="col-lg-4">
+                                    <input type="text"  name="duyuru" value="<?= $arow->duyuru; ?>" id="inputEmail" class="form-control" placeholder="Site Duyuru">
+                                </div>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="inputEmail" class="col-lg-2 control-label">Site Footer</label>
+                                <div class="col-lg-4">
+                                    <input type="text"  name="footer" value="<?= $arow->footer; ?>" id="inputEmail" class="form-control" placeholder="Site Footer">
+                                </div>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="inputEmail" class="col-lg-2 control-label">Site API Key</label>
+                                <div class="col-lg-4">
+                                    <input type="text"  name="apikey" value="<?= $arow->apikey; ?>" id="inputEmail" class="form-control" placeholder="Youtube Data API Key">
+                                </div>
+                            </div>
+                            <div class="form-group mb-3">
+                                <div class="col-lg-4">
+                                    <button type="submit" name="ayarguncel" class="btn btn-success">Ayarları Güncelle</button>
+                                </div>
+                            </div>
+                        </form>
+
+                        <?php
+                    break;
                     case 'yorumsil':
                         if(isset($_SESSION['oturum'])){
                             $id = @get('id');
