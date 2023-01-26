@@ -1,5 +1,5 @@
 <?php 
-
+define('guvenlik',true);
 require_once 'ust.php'; ?>
 
 <body>

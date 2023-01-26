@@ -1,5 +1,9 @@
-<?php require_once 'ust.php'; ?>
-<?php require_once 'nav.php'; ?>
+<?php 
+define("guvenlik",true);
+require_once 'ust.php'; 
+ 
+require_once 'nav.php'; 
+?>
 <div class="content-wrapper">
     <div class="container-fluid mt-3">
         <nav aria-label="breadcrumb">
@@ -62,6 +66,20 @@
                             }else{
                                 echo "<div class='alert alert-danger'>Silme İşlemi Başarısız</div>";
                                 header('refresh:1;url=index.php');
+                            }
+                        }
+                    break;
+                    case 'onerisil':
+                        if(isset($_SESSION['oturum'])){
+                            $id = @get('id');
+                            $sil = $db->prepare("DELETE FROM oneriler WHERE oneri_id=:id");
+                            $sil->execute(array(':id'=>$id));
+                            if($sil){
+                                echo "<div class='alert alert-success'>Silme İşlemi Başarılı</div>";
+                                header('refresh:1;url=oneriler.php');
+                            }else{
+                                echo "<div class='alert alert-danger'>Silme İşlemi Başarısız</div>";
+                                header('refresh:1;url=oneriler.php');
                             }
                         }
                     break;

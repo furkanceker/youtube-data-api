@@ -1,3 +1,4 @@
+<?php echo !defined("guvenlik") ? die("") : null; ?>
 <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
     <!-- Navbar Brand-->
     <a class="navbar-brand ps-3" href="index.php">Yönetim Paneli</a>
@@ -36,6 +37,10 @@
                     <a class="nav-link" href="index.php">
                         <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                         Yönetim Paneli
+                    </a>
+                    <a class="nav-link" href="oneriler.php">
+                        <div class="sb-nav-link-icon"><i class="fas fa-video"></i></div>
+                        Video Öneri Listesi
                     </a>
                     <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
                         <div class="sb-nav-link-icon"><i class="fas fa-user"></i></div>

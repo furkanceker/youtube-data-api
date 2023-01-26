@@ -1,4 +1,6 @@
-<?php require_once "ust.php"; ?>
+<?php 
+define('guvenlik',true);
+require_once "ust.php"; ?>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 <?php require_once "nav.php"; ?>

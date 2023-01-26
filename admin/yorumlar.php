@@ -1,5 +1,9 @@
-<?php require_once 'ust.php'; ?>
-<?php require_once 'nav.php'; ?>
+<?php 
+define("guvenlik",true);
+require_once 'ust.php'; 
+ 
+require_once 'nav.php'; 
+?>
 <div class="content-wrapper">
     <div class="container-fluid mt-3">
         <nav aria-label="breadcrumb">
@@ -119,7 +123,7 @@
                         }
                         echo "</ul>";
                     }else{
-                        echo '<div class="alert alert-danger>Yorum Yok</div>';
+                        echo '<div class="alert alert-danger">Yorum Yok</div>';
                     }
                     
                 ?>

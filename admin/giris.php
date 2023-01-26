@@ -1,5 +1,4 @@
-<?php 
-
+<?php
 require_once '../sistem/fonksiyon.php'; 
 if(isset($_SESSION['oturum'])){
     header('Location:index.php');

@@ -1,3 +1,4 @@
+<?php echo !defined("guvenlik") ? die("") : null; ?>
 <footer class="py-5 bg-dark">
     <div class="container">
         <p class="m-0 text-center text-white"><?= $arow->footer; ?></p>

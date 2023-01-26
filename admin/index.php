@@ -1,5 +1,8 @@
-<?php require_once 'ust.php'; ?>
-<?php require_once 'nav.php'; 
+<?php 
+define("guvenlik",true);
+require_once 'ust.php'; 
+ 
+require_once 'nav.php'; 
 $s = @intval(get('s'));
 if(!$s){$s=1;}
 $videolar = $db->prepare("SELECT * FROM videolar");

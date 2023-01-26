@@ -1,4 +1,8 @@
-<?php require_once "sistem/fonksiyon.php"; ?>
+<?php 
+echo !defined("guvenlik") ? die("") : null;
+require_once "sistem/fonksiyon.php"; 
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
