@@ -55,6 +55,70 @@ require_once 'nav.php';
 
                         }
                     break;
+                    case 'yoneticiekle':
+                        if(isset($_SESSION['oturum'])){
+                            if(isset($_POST['yoneticiekle'])){
+                                $eposta = post('eposta');
+                                $isim = post('adsoyad');
+                                $sifre = post('sifre');
+                                $sifreli = sha1(md5($sifre));
+
+                                if(!$eposta || !$isim || !$sifre){
+                                    echo "<div class='alert alert-danger'>Boş Alanları Doldurun</div>";
+                                }else{
+                                    $varmi = $db->prepare("SELECT * FROM admin WHERE posta=:posta");
+                                    $varmi->execute(array(":posta"=>$eposta));
+                                    if($varmi->rowCount()){
+                                        echo "<div class='alert alert-danger'>Bu E-Posta Zaten Kayıtlı</div>";
+                                    }else{
+                                        if(!filter_var($eposta,FILTER_VALIDATE_EMAIL)){
+                                            echo "<div class='alert alert-danger'>Geçersiz E-Posta Adresi</div>";
+                                        }else{
+
+                                            $ekle = $db->prepare("INSERT INTO admin SET 
+                                            posta=:p,
+                                            isim=:i,
+                                            sifre=:s");
+                                            $ekle->execute(array(":p"=>$eposta,":i"=>$isim,":s"=>$sifreli));
+                                            if($ekle){
+                                                echo "<div class='alert alert-success'>Yönetici Eklendi</div>";
+                                                header("refresh:2;url=yoneticiler.php");
+                                            }else{
+                                                echo "<div class='alert alert-danger'>Yönetici Eklenemedi</div>";
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            ?>
+                            <form action="" method="POST" class="form-horizontal">
+                                <div class="form-group mb-3">
+                                    <label for="inputEmail" class="col-lg-2 control-label">Yönetici E-Posta</label>
+                                    <div class="col-lg-4">
+                                        <input type="email"  name="eposta" id="inputEmail" class="form-control" placeholder="E-Posta">
+                                    </div>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label for="inputEmail2" class="col-lg-2 control-label">Yönetici Adı</label>
+                                    <div class="col-lg-4">
+                                        <input type="text"  name="adsoyad" id="inputEmail2" class="form-control" placeholder="Ad Soyad">
+                                    </div>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label for="inputEmail3" class="col-lg-2 control-label">Yönetici Şifre</label>
+                                    <div class="col-lg-4">
+                                        <input type="password" name="sifre" id="inputEmail3" class="form-control" placeholder="Şifre">
+                                    </div>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <div class="col-lg-4">
+                                        <button type="submit" name="yoneticiekle" class="btn btn-success">Ekle</button>
+                                    </div>
+                                </div>
+                            </form>
+                            <?php
+                        }
+                    break;
                     case 'videosil':
                         if(isset($_SESSION['oturum'])){
                             $id = @get('id');
